@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import com.openshift.k8svisualizer.models.PlatformObject;
+import com.openshift.k8svisualizer.models.PlatformObjectPod;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.Service;
@@ -17,9 +18,14 @@ import io.fabric8.openshift.client.OpenShiftClient;
 public class PlatformObjectHelper {
 
 	private OpenShiftClient client;
+	private String labelName;
+	private String labelValue;
 
 	public PlatformObjectHelper() {
 		client = new DefaultOpenShiftClient();
+		// Could make these configurable in the future
+		labelName = "run";
+		labelValue = "hello-k8s";
 	}
 
 	public List<PlatformObject> getPlatformObjects() {
@@ -44,15 +50,15 @@ public class PlatformObjectHelper {
 		return theObjects.get(new Random().nextInt(theObjects.size()));
 	}
 
-	public List<PlatformObject> getPods() {
+	public List<PlatformObjectPod> getPods() {
 		String shortName;
 		String[] result;
-		ArrayList<PlatformObject> thePods = new ArrayList<>();
-		List<Pod> pods = client.pods().withLabel("run", "hello-k8s").list().getItems();
+		ArrayList<PlatformObjectPod> thePods = new ArrayList<>();
+		List<Pod> pods = client.pods().withLabel(labelName, labelValue).list().getItems();
 		for (Pod currPod : pods) {
 			result = currPod.getMetadata().getName().split("-");
-			shortName = "hello-k8s..." + result[result.length - 1];
-			thePods.add(new PlatformObject(currPod.getMetadata().getUid(), shortName, "POD", currPod.getStatus().getPhase()));
+			shortName = labelValue + "..." + result[result.length - 1];
+			thePods.add(new PlatformObjectPod(currPod.getMetadata().getUid(), shortName, "POD", currPod.getStatus().getPhase()));
 		}
 		return thePods;
 	}
@@ -63,7 +69,7 @@ public class PlatformObjectHelper {
 		List<Build> builds = client.builds().list().getItems();
 		for (Build currBuild : builds) {
 			theBuilds.add(
-					new PlatformObject(currBuild.getMetadata().getUid(), currBuild.getMetadata().getName(), "BUILD", currBuild.getStatus().getPhase()));
+					new PlatformObject(currBuild.getMetadata().getUid(), currBuild.getMetadata().getName(), "BUILD"));
 		}
 
 		return theBuilds;
@@ -74,7 +80,7 @@ public class PlatformObjectHelper {
 		List<DeploymentConfig> deploymentConfigs = client.deploymentConfigs().list().getItems();
 		for (DeploymentConfig currConfig : deploymentConfigs) {
 			theDeployments.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
-					"DEPLOYMENT_CONFIG", currConfig.getStatus().getDetails().toString()));
+					"DEPLOYMENT_CONFIG"));
 		}
 
 		return theDeployments;
@@ -85,7 +91,7 @@ public class PlatformObjectHelper {
 		List<BuildConfig> theItems = client.buildConfigs().list().getItems();
 		for (BuildConfig currConfig : theItems) {
 			theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
-					"BUILD_CONFIG", currConfig.getStatus().toString()));
+					"BUILD_CONFIG"));
 		}
 		return theList;
 	}
@@ -95,17 +101,19 @@ public class PlatformObjectHelper {
 		List<PersistentVolumeClaim> theItems = client.persistentVolumeClaims().list().getItems();
 		for (PersistentVolumeClaim currConfig : theItems) {
 			theList.add(
-					new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(), "PVC", currConfig.getStatus().toString()));
+					new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(), "PVC"));
 		}
 		return theList;
 	}
 
 	public List<PlatformObject> getServices() {
 		ArrayList<PlatformObject> theList = new ArrayList<>();
-		List<Service> theItems = client.services().withLabel("run", "hello-k8s").list().getItems();
+		List<Service> theItems = client.services().withLabel(labelName, labelValue).list().getItems();
 		for (Service currConfig : theItems) {
+			/*theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
+					"SERVICE"));*/
 			theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
-					"SERVICE", currConfig.getStatus().toString()));
+					currConfig.getMetadata().getCreationTimestamp()));
 		}
 		return theList;
 	}
@@ -115,7 +123,7 @@ public class PlatformObjectHelper {
 		List<Route> theItems = client.routes().list().getItems();
 		for (Route currConfig : theItems) {
 			theList.add(
-					new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(), "ROUTE", currConfig.getStatus().toString()));
+					new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(), "ROUTE"));
 		}
 		return theList;
 	}

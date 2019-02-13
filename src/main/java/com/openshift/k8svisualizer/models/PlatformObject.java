@@ -2,16 +2,16 @@ package com.openshift.k8svisualizer.models;
 
 public class PlatformObject {
 
-	private String objectID;
-	private String objectName;
-	private String objectType;
-	private String objectStatus;
+	public String objectID;
+	public String objectName;
+	public String objectType;
+
 	
-	public PlatformObject(String objectID, String objectName, String objectType, String objectStatus) {
+	public PlatformObject(String objectID, String objectName, String objectType) {
 		this.objectID = objectID;
 		this.objectName = objectName;
 		this.objectType = objectType;
-		this.objectStatus = objectStatus;
+
 	}
 	public String getObjectID() {
 		return objectID;
@@ -30,11 +30,5 @@ public class PlatformObject {
 	}
 	public void setObjectName(String objectName) {
 		this.objectName = objectName;
-	}
-	public String getObjectStatus() {
-		return objectStatus;
-	}
-	public void setObjectStatus(String objectStatus) {
-		this.objectStatus = objectStatus;
 	}
 }
