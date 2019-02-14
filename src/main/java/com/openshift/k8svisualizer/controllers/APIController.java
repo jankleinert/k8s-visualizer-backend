@@ -49,6 +49,12 @@ public class APIController {
 		return helper.getServices();
 	}
 
+	@RequestMapping("/getDeployments")
+	public List<PlatformObject> getDeployments() {
+		PlatformObjectHelper helper = new PlatformObjectHelper();
+		return helper.getDeployments();
+	}
+
 	@CrossOrigin
 	@RequestMapping("/deleteObject")
 	public void deletePlatformObject(@RequestParam(value = "gameID") String gameID, 

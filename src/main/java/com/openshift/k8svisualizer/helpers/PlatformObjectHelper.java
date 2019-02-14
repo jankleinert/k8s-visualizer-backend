@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import com.openshift.k8svisualizer.models.PlatformObject;
 import com.openshift.k8svisualizer.models.PlatformObjectPod;
+import io.fabric8.kubernetes.api.model.extensions.Deployment;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.Service;
@@ -38,6 +39,7 @@ public class PlatformObjectHelper {
 		platformObjects.addAll(this.getPVs());
 		platformObjects.addAll(this.getServices());
 		platformObjects.addAll(this.getRoutes());
+		platformObjects.addAll(this.getDeployments());
 
 		return platformObjects;
 
@@ -121,6 +123,15 @@ public class PlatformObjectHelper {
 		return theList;
 	}
 
+	public List<PlatformObject> getDeployments() {
+		ArrayList<PlatformObject> theList = new ArrayList<>();
+		List<Deployment> theItems = client.extensions().deployments().withLabel(labelName, labelValue).list().getItems();
+		for (Deployment currConfig : theItems) {
+			theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
+					"DEPLOYMENT"));
+		}
+		return theList;
+	}
 	private List<PlatformObject> getRoutes() {
 		ArrayList<PlatformObject> theList = new ArrayList<>();
 		List<Route> theItems = client.routes().list().getItems();
