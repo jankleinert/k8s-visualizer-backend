@@ -57,7 +57,12 @@ public class PlatformObjectHelper {
 		List<Pod> pods = client.pods().withLabel(labelName, labelValue).list().getItems();
 		for (Pod currPod : pods) {
 			result = currPod.getMetadata().getName().split("-");
-			shortName = labelValue + "..." + result[result.length - 1];
+			if (result.length > 2) {
+				shortName = labelValue + "..." + result[result.length - 1];
+			} else {
+				shortName = labelValue;
+			}
+			
 			thePods.add(new PlatformObjectPod(currPod.getMetadata().getUid(), shortName, "POD", currPod.getStatus().getPhase()));
 		}
 		return thePods;
@@ -110,10 +115,8 @@ public class PlatformObjectHelper {
 		ArrayList<PlatformObject> theList = new ArrayList<>();
 		List<Service> theItems = client.services().withLabel(labelName, labelValue).list().getItems();
 		for (Service currConfig : theItems) {
-			/*theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
-					"SERVICE"));*/
 			theList.add(new PlatformObject(currConfig.getMetadata().getUid(), currConfig.getMetadata().getName(),
-					currConfig.getMetadata().getCreationTimestamp()));
+					"SERVICE"));
 		}
 		return theList;
 	}
