@@ -4,6 +4,7 @@ This is a Java Spring Boot app that interacts with the Kubernetes and OpenShift 
 # How to deploy on OpenShift using the web console
 
 Create a new project  
+Create a service account "default" for that project with view permissions  
 Add to Project > Browse Catalog   
 Select Red Hat OpenJDK 8  
 Click Next  
