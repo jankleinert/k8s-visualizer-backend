@@ -4,11 +4,11 @@ This is a Java Spring Boot app that interacts with the Kubernetes and OpenShift 
 # How to deploy on OpenShift using the web console
 
 Create a new project  
-Add to Project > Browse Catalog . 
+Add to Project > Browse Catalog   
 Select Red Hat OpenJDK 8  
 Click Next  
 Select version 8, give the application a name, enter https://github.com/jankleinert/k8s-visualizer-backend as the repo URL  
-Click Create . 
+Click Create   
 
 
 # How to deploy on OpenShift using odo
