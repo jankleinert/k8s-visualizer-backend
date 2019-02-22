@@ -1,7 +1,17 @@
 # k8s-visualizer-backend
 This is a Java Spring Boot app that interacts with the Kubernetes and OpenShift APIs. It's a stripped down, non-game version of https://github.com/openshift-evangelists/Wild-West-Backend.
 
-# How to deploy on OpenShift
+# How to deploy on OpenShift using the web console
+
+Create a new project  
+Add to Project > Browse Catalog . 
+Select Red Hat OpenJDK 8  
+Click Next  
+Select version 8, give the application a name, enter https://github.com/jankleinert/k8s-visualizer-backend as the repo URL  
+Click Create . 
+
+
+# How to deploy on OpenShift using odo
 ```
 $ mvn package
 $ odo project create visualizer
@@ -17,5 +27,5 @@ $ odo url create --port 8080
 ```
 
 # API endpoints
-/getPods
+/getPods  
 /getServices
