@@ -16,6 +16,8 @@ const k8sclient = new Client({
     }
   })
 
+const namespace = 'visualizer2';
+
 app.get('/', (req, res) =>  {
     
     res.send('Hello World!')
@@ -23,7 +25,7 @@ app.get('/', (req, res) =>  {
 
 app.get('/getPods', (req, res) =>  {
     thePods = [];
-    k8sclient.api.v1.namespaces('hello-k8s').pods.get().then((response) => {
+    k8sclient.api.v1.namespaces(namespace).pods.get().then((response) => {
             console.log(response.body.items);
             for (var i = 0; i < response.body.items.length; i++) {
                 thePods.push({'objectName': response.body.items[i].metadata.name, 'objectType': "POD", 'obectStatus': response.body.items[i].status.phase})
@@ -34,7 +36,7 @@ app.get('/getPods', (req, res) =>  {
 
 app.get('/getServices', (req, res) =>  {
     theServices = [];
-    k8sclient.api.v1.namespaces('hello-k8s').services.get().then((response) => {
+    k8sclient.api.v1.namespaces(namespace).services.get().then((response) => {
             console.log(response.body.items);
             for (var i = 0; i < response.body.items.length; i++) {
                 theServices.push({'objectName': response.body.items[i].metadata.name, 'objectType': "SERVICE", 'obectStatus': ""})
@@ -45,7 +47,7 @@ app.get('/getServices', (req, res) =>  {
 
 app.get('/getDeployments', (req, res) =>  {
     theDeployments = [];
-    k8sclient.apis.apps.v1beta1.namespaces('hello-k8s').deployments.get().then((response) => {
+    k8sclient.apis.apps.v1beta1.namespaces(namespace).deployments.get().then((response) => {
             console.log(response.body.items);
             for (var i = 0; i < response.body.items.length; i++) {
                 theDeployments.push({'objectName': response.body.items[i].metadata.name, 'objectType': "DEPLOYMENT", 'obectStatus': ""})
