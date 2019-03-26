@@ -1,0 +1,24 @@
+{
+  "name": "k8s-visualizer-backend",
+  "version": "1.0.0",
+  "description": "This is a Node.js app that interacts with the Kubernetes and OpenShift APIs.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jankleinert/k8s-visualizer-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jankleinert/k8s-visualizer-backend/issues"
+  },
+  "homepage": "https://github.com/jankleinert/k8s-visualizer-backend#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "kubernetes-client": "^6.11.1"
+  }
+}
