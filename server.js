@@ -4,8 +4,17 @@ const port = 8080
 
 
 const Client = require('kubernetes-client').Client
-const config = require('kubernetes-client').config
-const k8sclient = new Client({ config: config.fromKubeconfig(), version: '1.11' })
+
+const k8sclient = new Client({
+    config: {
+      url: PROCESS.env.CLUSTER_URL,
+      auth: {
+        user: 'opentlc-mgr',
+        pass: PROCESS.env.CLUSTER_PASS,
+      },
+      insecureSkipTlsVerify: true,
+    }
+  })
 
 app.get('/', (req, res) =>  {
     
