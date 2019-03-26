@@ -7,10 +7,10 @@ const Client = require('kubernetes-client').Client
 
 const k8sclient = new Client({
     config: {
-      url: PROCESS.env.CLUSTER_URL,
+      url: process.env.CLUSTER_URL,
       auth: {
         user: 'opentlc-mgr',
-        pass: PROCESS.env.CLUSTER_PASS,
+        pass: process.env.CLUSTER_PASS,
       },
       insecureSkipTlsVerify: true,
     }
